@@ -1,0 +1,4 @@
+.bar {
+    transition-duration: 1s;
+    transition-property: width;
+}

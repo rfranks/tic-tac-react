@@ -1,0 +1,75 @@
+.tic-tac-board {
+    padding: 8px;
+}
+
+.tic-tac-board__row {
+    margin: 0 calc(12.5% - 24px);
+}
+
+.tic-tac-board__row:after {
+    clear: both;
+    content: "";
+    display: table;
+}
+
+.tic-tac-board__row:nth-child(1) .square:nth-child(1),
+.tic-tac-board__row:nth-child(1) .square:nth-child(2),
+.tic-tac-board__row:nth-child(1) .square:nth-child(3) {
+    border-top: none;
+}
+
+.tic-tac-board__row:nth-child(3) .square:nth-child(1),
+.tic-tac-board__row:nth-child(3) .square:nth-child(2),
+.tic-tac-board__row:nth-child(3) .square:nth-child(3) {
+    border-bottom: none;
+}
+
+.tic-tac-board__row:nth-child(1) .square:nth-child(1),
+.tic-tac-board__row:nth-child(2) .square:nth-child(1),
+.tic-tac-board__row:nth-child(3) .square:nth-child(1) {
+    border-left: none;
+}
+
+.tic-tac-board__row:nth-child(1) .square:nth-child(3),
+.tic-tac-board__row:nth-child(2) .square:nth-child(3),
+.tic-tac-board__row:nth-child(3) .square:nth-child(3) {
+    border-right: none;
+}
+
+.square {
+    background: #fff;
+    border: 2px solid #999;
+    float: left;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 64px;
+    height: 64px;
+    margin-right: -1px;
+    margin-top: -1px;
+    padding: 0;
+    text-align: center;
+    width: 64px;
+    transition-property: background-color, color;
+    transition-duration: 1s;
+}
+
+.square:empty {
+    cursor: pointer;
+}
+
+.square:focus {
+    outline: none;
+}
+
+.square--winner {
+    background-color: #61dafb;
+    color: #3f51b5;
+}
+
+.kbd-navigation .square:focus {
+    background: #ddd;
+}
+
+
+
+
