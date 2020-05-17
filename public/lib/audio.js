@@ -26,7 +26,6 @@ var Audio = {
                 audioElement.play();
                 audioElement.playedOnce = true;
             } catch (error) {
-                console.warn()
             }
         } else {
             audioElement = document.createElement('audio');
@@ -38,8 +37,11 @@ var Audio = {
             }, false);
 
             audioElement.addEventListener('canplay', function () {
-                !audioElement.playedOnce && audioElement.play();
-                audioElement.playedOnce = true;
+                try {
+                    !audioElement.playedOnce && audioElement.play();
+                    audioElement.playedOnce = true;
+                } catch (error) {
+                }
             });
 
             document.body.appendChild(audioElement);
