@@ -96,13 +96,15 @@ class Game extends React.Component {
         !winner && this.currentStep() === 8 && (winner = '-');
 
         //play a sound...
-        if (!winner) {
-            Audio.play('/tic-tac-react/sounds/NFF-ping.wav');
-        } else if (winner !== '-') {
-            Audio.play('/tic-tac-react/sounds/NFF-level-up.wav');
-        } else {
-            Audio.play('/tic-tac-react/sounds/NFF-gameover.wav');
-        }
+        Audio.play && function() {
+            if (!winner) {
+                Audio.play('/tic-tac-react/sounds/NFF-ping.wav');
+            } else if (winner !== '-') {
+                Audio.play('/tic-tac-react/sounds/NFF-level-up.wav');
+            } else {
+                Audio.play('/tic-tac-react/sounds/NFF-gameover.wav');
+            }
+        }();
 
         this.setState({
             history: history.concat([
@@ -142,7 +144,7 @@ class Game extends React.Component {
             }
         });
 
-        Audio.play('/tic-tac-react/sounds/NFF-new-game.wav');
+        Audio.play && Audio.play('/tic-tac-react/sounds/NFF-new-game.wav');
 
         return state;
     }

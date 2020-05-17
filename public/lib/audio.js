@@ -22,8 +22,12 @@ var Audio = {
             audioElement = audioElements[0];
             audioElement.currentTime = 0;
             audioElement.playedOnce = false;
-            audioElement.play();
-            audioElement.playedOnce = true;
+            try {
+                audioElement.play();
+                audioElement.playedOnce = true;
+            } catch (error) {
+                console.warn()
+            }
         } else {
             audioElement = document.createElement('audio');
             audioElement.setAttribute('src', url);
