@@ -55,7 +55,7 @@ const BarChart = ({data, title, x, y}) => {
                 .attr('height', yScale.bandwidth())
                 .style('fill', function (d, i) {
                     return color[i % 4]; // use colors in sequence
-                })
+                });
 
             // draw axes
             const xAxis = axisBottom(xScale);
@@ -63,16 +63,16 @@ const BarChart = ({data, title, x, y}) => {
                 .append('g')
                 .attr('class', 'x axis')
                 .attr('transform', `translate(0,${height + margin.bottom / 3})`)
-                .call(xAxis)
+                .call(xAxis);
 
-            const yAxis = axisLeft(yScale).tickSize(0)
+            const yAxis = axisLeft(yScale).tickSize(0);
             svg
                 .append('g')
                 .attr('class', 'y axis')
                 .attr('transform', `translate(${-margin.left / 3},0)`)
                 .call(yAxis)
         }
-    }, [data])
+    }, [data, color, height, margin.bottom, margin.left, margin.top, title, width, x, y]);
 
     return (
         <svg
@@ -82,7 +82,7 @@ const BarChart = ({data, title, x, y}) => {
             role="img"
             ref={d3svg}
         ></svg>
-    )
+    );
 }
 
 export default BarChart
