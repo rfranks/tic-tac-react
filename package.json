@@ -2,6 +2,18 @@
   "name": "tic-tac-react",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://rfranks.github.io/tic-tac-react",
+  "author": {
+    "email": "richardfranksjr@hotmail.com",
+    "name": "Richard A Franks Jr"
+  },
+  "bugs": {
+    "url": "https://github.com/rfranks/tic-tac-react/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rfranks/tic-tac-react.git"
+  },
   "dependencies": {
     "d3-array": "2.0.3",
     "d3-axis": "1.0.12",
@@ -24,7 +36,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -40,5 +54,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^2.2.0"
   }
 }
