@@ -18,8 +18,6 @@ var Audio = {
         var audioElements = document.querySelectorAll('audio[src="' + url + '"]'),
             audioElement;
 
-        debugger;
-
         if (audioElements && audioElements.length) {
             audioElement = audioElements[0];
             audioElement.currentTime = 0;
