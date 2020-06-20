@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import Button from '@material-ui/core/Button';
@@ -19,7 +19,7 @@ import Board from '../Board/Board';
 
 import './Game.css';
 
-function TicTacToeGame({classes}) {
+function TicTacToeGame({ classes }) {
   const [moves, setMoves] = useState([]);
 
   const wins = useRef({
@@ -67,7 +67,7 @@ function TicTacToeGame({classes}) {
       [2, 4, 6],
     ];
 
-    winningLines.forEach(line => {
+    winningLines.forEach((line) => {
       const [x, y, z] = line;
 
       if (
@@ -101,23 +101,26 @@ function TicTacToeGame({classes}) {
     return moves[currentMove()].squares;
   };
 
-  const goToMove = move => {
+  const goToMove = (move) => {
     setMoves(moves.slice(0, move + 1));
   };
 
   const isScratch = (squares) => {
-    return currentMove() === (squares ? 8 : 9) && calculateWinner(squares || currentSquares()) === null;
+    return (
+      currentMove() === (squares ? 8 : 9) &&
+      calculateWinner(squares || currentSquares()) === null
+    );
   };
 
-  const onSquareClick = position => {
+  const onSquareClick = (position) => {
     const squares = currentSquares();
     const newSquares = new Array(9).fill('');
 
     newSquares.forEach((square, index) => {
-      const {player, winning} = squares[index];
+      const { player, winning } = squares[index];
       newSquares[index] = {
         player,
-        winning
+        winning,
       };
     });
 
@@ -127,17 +130,17 @@ function TicTacToeGame({classes}) {
 
     if (isScratch(newSquares)) {
       wins.current.scratch += 1;
-      wins.current = {...wins.current};
+      wins.current = { ...wins.current };
     } else if (winner !== null) {
       wins.current[winner.toLowerCase()] += 1;
-      wins.current = {...wins.current};
+      wins.current = { ...wins.current };
     }
 
     setMoves(
       moves.concat([
         {
-          squares: newSquares
-        }
+          squares: newSquares,
+        },
       ])
     );
 
@@ -156,8 +159,11 @@ function TicTacToeGame({classes}) {
   };
 
   const winner = calculateWinner(currentSquares());
-  const scratchOrPlayerTurnMsg = isScratch() ? "It's a scratch!" : `It's ${currentPlayer()}'s turn`;
-  const whoseTurnIsIt = winner !== null ? `Winner: ${winner}` : scratchOrPlayerTurnMsg;
+  const scratchOrPlayerTurnMsg = isScratch()
+    ? "It's a scratch!"
+    : `It's ${currentPlayer()}'s turn`;
+  const whoseTurnIsIt =
+    winner !== null ? `Winner: ${winner}` : scratchOrPlayerTurnMsg;
 
   return (
     <div className={classes.heroButtons}>
@@ -181,11 +187,11 @@ function TicTacToeGame({classes}) {
         </Grid>
         <Grid item xs={6}>
           <Paper>
-            <GameMoves moves={moves} onGoToMove={goToMove} winner={winner}/>
+            <GameMoves moves={moves} onGoToMove={goToMove} winner={winner} />
           </Paper>
         </Grid>
         <Grid item xs={12}>
-          <GameScoreCards wins={wins.current}/>
+          <GameScoreCards wins={wins.current} />
         </Grid>
       </Grid>
     </div>
@@ -193,23 +199,23 @@ function TicTacToeGame({classes}) {
 }
 
 TicTacToeGame.propTypes = {
-  classes: PropTypes.string.isRequired
+  classes: PropTypes.string.isRequired,
 };
 
-function GameScoreCards({wins}) {
+function GameScoreCards({ wins }) {
   const records = [
     {
       player: 'X',
-      wins: wins.x
+      wins: wins.x,
     },
     {
       player: 'O',
-      wins: wins.o
+      wins: wins.o,
     },
     {
       player: '-',
-      wins: wins.scratch
-    }
+      wins: wins.scratch,
+    },
   ];
 
   const games = wins.o + wins.x + wins.scratch;
@@ -290,7 +296,7 @@ function GameScoreCards({wins}) {
           <Typography variant="h4" color="primary" gutterBottom>
             Wins by player
           </Typography>
-          <BarChart data={records} title="" xLabel="wins" yLabel="player"/>
+          <BarChart data={records} title="" xLabel="wins" yLabel="player" />
         </Paper>
       </Grid>
     </Grid>
@@ -306,7 +312,7 @@ GameScoreCards.propTypes = {
 };
 
 function GameMoves(props) {
-  const {onGoToMove, moves, winner} = props;
+  const { onGoToMove, moves, winner } = props;
 
   if (moves === undefined || moves === null) {
     return null;
@@ -319,7 +325,10 @@ function GameMoves(props) {
     const isLastMove = index === moves.length - 1;
     const player = index % 2 === 0 ? 'O' : 'X';
 
-    const button = (isLastMove && winner) ? winnerMsg : (
+    const button =
+      isLastMove && winner ? (
+        winnerMsg
+      ) : (
         <Button
           variant={index ? 'outlined' : 'contained'}
           className="tic-tac-game__move fadeIn"
@@ -331,7 +340,7 @@ function GameMoves(props) {
         </Button>
       );
 
-    const icon = isLastMove ? '' : (<Icon color="primary">redo</Icon>);
+    const icon = isLastMove ? '' : <Icon color="primary">redo</Icon>;
 
     return (
       <React.Fragment key={`tic-tac-game__move${moveNumber}`}>
@@ -352,18 +361,22 @@ function GameMoves(props) {
 }
 
 GameMoves.defaultProps = {
-  winner: null
+  winner: null,
 };
 
 GameMoves.propTypes = {
   onGoToMove: PropTypes.func.isRequired,
-  moves: PropTypes.arrayOf(PropTypes.shape({
-    squares: PropTypes.arrayOf(PropTypes.shape({
-      player: PropTypes.string,
-      winning: PropTypes.bool.isRequired
-    })).isRequired
-  })).isRequired,
-  winner: PropTypes.string
+  moves: PropTypes.arrayOf(
+    PropTypes.shape({
+      squares: PropTypes.arrayOf(
+        PropTypes.shape({
+          player: PropTypes.string,
+          winning: PropTypes.bool.isRequired,
+        })
+      ).isRequired,
+    })
+  ).isRequired,
+  winner: PropTypes.string,
 };
 
 export default TicTacToeGame;

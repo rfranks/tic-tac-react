@@ -10,12 +10,12 @@ const Audio = {
    * Plays the audio file at the given url.
    * @param {string} url the url of the audio file to play
    */
-  play (url) {
+  play(url) {
     if (!Audio.playSounds) {
       return;
     }
 
-    const audioElements = document.querySelectorAll(`audio[src="${  url  }"]`);
+    const audioElements = document.querySelectorAll(`audio[src="${url}"]`);
     let audioElement;
 
     if (audioElements && audioElements.length) {
@@ -57,18 +57,18 @@ const Audio = {
   },
 
   /** Turn sounds on. Only affects Audio Lib API. */
-  soundOn () {
+  soundOn() {
     Audio.playSounds = true;
   },
 
   /** Turn sounds off. Only affects Audio Lib API. */
-  soundOff () {
+  soundOff() {
     Audio.playSounds = false;
   },
 
   /** Toggle sounds on/off. Only affects Audio Lib API. */
-  toggleSound () {
+  toggleSound() {
     Audio.playSounds = !Audio.playSounds;
     return Audio.playSounds;
-  }
+  },
 };

@@ -3,17 +3,17 @@ import PropTypes from 'prop-types';
 
 import './Board.css';
 
-function Square({onSquareClick, player, position, winning = false}) {
+function Square({ onSquareClick, player, position, winning = false }) {
   const classes = ['square', winning ? 'square--winner' : ''].join(' ');
 
-  const handleSquareClick = evt => {
+  const handleSquareClick = (evt) => {
     if (player !== undefined && player !== null) {
       // if the square is already taken, then do nothing
       evt.preventDefault();
     } else {
       onSquareClick(position);
 
-      const {classList} = evt.target;
+      const { classList } = evt.target;
       classList.remove('flipInY');
 
       setTimeout(function updateClasses() {
@@ -40,8 +40,7 @@ Square.propTypes = {
   winning: PropTypes.bool.isRequired,
 };
 
-
-export default function Board({squares, onSquareClick}) {
+export default function Board({ squares, onSquareClick }) {
   let winner = false;
 
   const rows = [
@@ -50,7 +49,7 @@ export default function Board({squares, onSquareClick}) {
     [6, 7, 8],
   ];
 
-  const handleSquareClick = position => {
+  const handleSquareClick = (position) => {
     // if we don't have a winner yet, allow the click
     if (!winner) {
       onSquareClick(position);
@@ -64,8 +63,8 @@ export default function Board({squares, onSquareClick}) {
 
         return (
           <div key={rowNumber} className="tic-tac-board__row">
-            {row.map(position => {
-              const {player, winning} = squares[position];
+            {row.map((position) => {
+              const { player, winning } = squares[position];
 
               winner = winner || winning;
 
@@ -91,6 +90,7 @@ Board.propTypes = {
   squares: PropTypes.arrayOf(
     PropTypes.shape({
       player: PropTypes.string,
-      winning: PropTypes.bool.isRequired
-  })).isRequired,
+      winning: PropTypes.bool.isRequired,
+    })
+  ).isRequired,
 };

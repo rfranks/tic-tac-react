@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
 
-import {useStyles} from '../../theme';
+import { useStyles } from '../../theme';
 import Game from '../Game/Game';
 
 import './App.css';
@@ -43,10 +43,10 @@ export default function App() {
               <span className="fadeInDown delay--short">Tic</span>
               <span className="fadeInDown delay">-Tac-</span>
               <Link href="https://reactjs.org/">
-                <span className="fadeInDown delay--long react-logo--large flipInY"/>
+                <span className="fadeInDown delay--long react-logo--large flipInY" />
               </Link>
             </Typography>
-            <Game classes="{classes}"/>
+            <Game classes="{classes}" />
           </Container>
         </div>
       </main>
@@ -55,7 +55,7 @@ export default function App() {
         <Typography variant="subtitle1" align="center" color="textSecondary">
           Powered by{' '}
           <Link href="https://reactjs.org/">
-            <div className="react-logo--small"/>
+            <div className="react-logo--small" />
           </Link>
         </Typography>
         <Copyright />

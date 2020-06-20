@@ -1,17 +1,17 @@
-import React, {useEffect, useRef} from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
-import {select} from 'd3-selection';
-import {max} from 'd3-array';
-import {scaleLinear, scaleBand} from 'd3-scale';
-import {axisLeft, axisBottom} from 'd3-axis';
+import { select } from 'd3-selection';
+import { max } from 'd3-array';
+import { scaleLinear, scaleBand } from 'd3-scale';
+import { axisLeft, axisBottom } from 'd3-axis';
 
 import './BarChart.css';
 
-const BarChart = ({data, title, xLabel, yLabel}) => {
+const BarChart = ({ data, title, xLabel, yLabel }) => {
   const d3svg = useRef(null);
   // margin convention often used with D3
-  const margin = {top: 80, right: 60, bottom: 80, left: 60};
+  const margin = { top: 80, right: 60, bottom: 80, left: 60 };
   const width = 500 - margin.left - margin.right;
   const height = 300 - margin.top - margin.bottom;
   const color = ['#3f51b5', '#61dafb', '#b33535', '#283250'];
@@ -21,12 +21,12 @@ const BarChart = ({data, title, xLabel, yLabel}) => {
       let svg = select(d3svg.current);
 
       // scales
-      const xMax = max(data, d => d[xLabel]);
+      const xMax = max(data, (d) => d[xLabel]);
 
       const xScale = scaleLinear().domain([0, xMax]).range([0, width]);
 
       const yScale = scaleBand()
-        .domain(data.map(d => d[yLabel]))
+        .domain(data.map((d) => d[yLabel]))
         .range([0, height])
         .paddingInner(0.25);
 
@@ -53,8 +53,8 @@ const BarChart = ({data, title, xLabel, yLabel}) => {
         .enter()
         .append('rect')
         .attr('class', 'bar')
-        .attr('y', d => yScale(d[yLabel]))
-        .attr('width', d => xScale(d[xLabel]))
+        .attr('y', (d) => yScale(d[yLabel]))
+        .attr('width', (d) => xScale(d[xLabel]))
         .attr('height', yScale.bandwidth())
         .style('fill', function callback(d, i) {
           return color[i % 4]; // use colors in sequence
@@ -85,7 +85,7 @@ const BarChart = ({data, title, xLabel, yLabel}) => {
     title,
     width,
     xLabel,
-    yLabel
+    yLabel,
   ]);
 
   return (
@@ -106,13 +106,15 @@ BarChart.defaultProps = {
 };
 
 BarChart.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape({
-    player: PropTypes.string.isRequired,
-    wins: PropTypes.number.isRequired
-  })).isRequired,
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      player: PropTypes.string.isRequired,
+      wins: PropTypes.number.isRequired,
+    })
+  ).isRequired,
   title: PropTypes.string,
   xLabel: PropTypes.string,
-  yLabel: PropTypes.string
+  yLabel: PropTypes.string,
 };
 
 export default BarChart;
