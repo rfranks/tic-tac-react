@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useState, useRef} from 'react';
+import PropTypes from 'prop-types';
 
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
@@ -13,344 +14,356 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 
-import BarChart from '../BarChart/BarChart'
-import Board from '../Board/Board'
+import BarChart from '../BarChart/BarChart';
+import Board from '../Board/Board';
 
 import './Game.css';
 
-const LINES = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6]
-];
+function TicTacToeGame({classes}) {
+  const [moves, setMoves] = useState([]);
 
-class Game extends React.Component {
-    constructor(props) {
-        super(props);
+  const wins = useRef({
+    x: 0,
+    o: 0,
+    scratch: 0,
+  });
 
-        this.goToMove = this.goToMove.bind(this);
+  const newGame = () => {
+    const emptyMove = {
+      squares: [],
+    };
 
-        this.state = this.newGame();
+    for (let i = 0; i < 9; i += 1) {
+      emptyMove.squares.push({
+        player: null,
+        winning: false,
+      });
     }
 
-    calculateWinner(squares) {
-        for (let i = 0; i < LINES.length; i++) {
-            const [a, b, c] = LINES[i];
+    if (moves.length > 0 && Audio.play) {
+      Audio.play('/tic-tac-react/sounds/NFF-new-game.wav');
+    }
 
-            if (squares[a].player && squares[a].player === squares[b].player && squares[a].player === squares[c].player) {
-                squares[a].winning = squares[b].winning = squares[c].winning = true;
-                return squares[a].player;
-            }
+    setMoves([emptyMove]);
+  };
+
+  if (moves.length === 0) {
+    newGame();
+    return null;
+  }
+
+  // figure out if we have a winner
+  const calculateWinner = (squares) => {
+    let winner = null;
+
+    const winningLines = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
+
+    winningLines.forEach(line => {
+      const [x, y, z] = line;
+
+      if (
+        squares[x].player &&
+        squares[x].player === squares[y].player &&
+        squares[x].player === squares[z].player
+      ) {
+        // eslint-disable-next-line no-param-reassign
+        squares[x].winning = true;
+        // eslint-disable-next-line no-param-reassign
+        squares[y].winning = true;
+        // eslint-disable-next-line no-param-reassign
+        squares[z].winning = true;
+
+        winner = squares[x].player;
+      }
+    });
+
+    return winner;
+  };
+
+  const currentMove = () => {
+    return moves.length - 1;
+  };
+
+  const currentPlayer = () => {
+    return currentMove() % 2 === 0 ? 'X' : 'O';
+  };
+
+  const currentSquares = () => {
+    return moves[currentMove()].squares;
+  };
+
+  const goToMove = move => {
+    setMoves(moves.slice(0, move + 1));
+  };
+
+  const isScratch = (squares) => {
+    return currentMove() === (squares ? 8 : 9) && calculateWinner(squares || currentSquares()) === null;
+  };
+
+  const onSquareClick = position => {
+    const squares = currentSquares();
+    const newSquares = new Array(9).fill('');
+
+    newSquares.forEach((square, index) => {
+      const {player, winning} = squares[index];
+      newSquares[index] = {
+        player,
+        winning
+      };
+    });
+
+    newSquares[position].player = currentPlayer();
+
+    const winner = calculateWinner(newSquares);
+
+    if (isScratch(newSquares)) {
+      wins.current.scratch += 1;
+      wins.current = {...wins.current};
+    } else if (winner !== null) {
+      wins.current[winner.toLowerCase()] += 1;
+      wins.current = {...wins.current};
+    }
+
+    setMoves(
+      moves.concat([
+        {
+          squares: newSquares
         }
+      ])
+    );
 
-        //did we scratch
-        if (this.currentStep() === 9) {
-            return '-';
-        }
-
-        return null;
-    }
-
-    currentGame() {
-        const {wins} = this.state;
-        return wins.x + wins.o + wins.scratch + 1; //+1 for the current game
-    }
-
-    currentPlayer() {
-        return this.currentStep() % 2 === 0 ? 'X' : 'O';
-    }
-
-    currentStep() {
-        return this.state.history.length - 1;
-    }
-
-    handleClick(i) {
-        const {history, wins} = this.state;
-        const {squares} = history[this.currentStep()];
-        let winner = this.calculateWinner(squares);
-
-        if (winner || squares[i].player) {
-            //if someone already won, or the square is taken, then no-op
-            return;
-        }
-
-        const newSquares = new Array(9).fill('');
-        newSquares.forEach((square, index) => {
-            const {player, winning} = squares[index];
-            newSquares[index] = {
-                player: player,
-                winning: winning
-            };
-        });
-
-        newSquares[i].player = this.currentPlayer();
-
-        winner = this.calculateWinner(newSquares);
-
-        //did we scratch?
-        !winner && this.currentStep() === 8 && (winner = '-');
-
-        //play a sound...
-        Audio.play && function() {
-            if (!winner) {
-                Audio.play('/tic-tac-react/sounds/NFF-ping.wav');
-            } else if (winner !== '-') {
-                Audio.play('/tic-tac-react/sounds/NFF-level-up.wav');
-            } else {
-                Audio.play('/tic-tac-react/sounds/NFF-gameover.wav');
-            }
-        }();
-
-        this.setState({
-            history: history.concat([
-                {
-                    squares: newSquares
-                }
-            ]),
-            wins: {
-                x: winner === 'X' ? wins.x + 1 : wins.x,
-                o: winner === 'O' ? wins.o + 1 : wins.o,
-                scratch: winner === '-' ? wins.scratch + 1 : wins.scratch
-            }
-        });
-    }
-
-    newGame() {
-        const state = {
-            history: [
-                {
-                    squares: new Array(9).fill('')
-                }
-            ],
-            wins: {
-                x: this.state ? this.state.wins.x : 0,
-                o: this.state ? this.state.wins.o : 0,
-                scratch: this.state ? this.state.wins.scratch : 0
-            }
-        };
-
-        //each square needs to be its own play
-        state.history.forEach((boardState) => {
-            for (let i = 0; i < 9; i++) {
-                boardState.squares[i] = {
-                    player: null,
-                    winning: false
-                };
-            }
-        });
-
-        Audio.play && Audio.play('/tic-tac-react/sounds/NFF-new-game.wav');
-
-        return state;
-    }
-
-    goToMove(step) {
-        this.setState({
-            history: this.state.history.slice(0, step + 1),
-            wins: this.state.wins
-        });
-    }
-
-    render() {
-        if (!this.state) {
-            return null;
-        }
-
-        const history = this.state.history;
-        const current = history[this.currentStep()];
-        const wins = [
-            {
-                player: 'X',
-                wins: this.state.wins.x
-            },
-            {
-                player: 'O',
-                wins: this.state.wins.o
-            },
-            {
-                player: '-',
-                wins: this.state.wins.scratch
-            }
-        ];
-        const records = this.state.wins;
-
-        const winner = this.calculateWinner(current.squares);
-        const classes = this.props.classes;
-        const whoseTurnIsIt = winner ?
-            winner === '-' ? "It's a scratch!" : "Winner: " + winner
-            : "It's " + this.currentPlayer() + "'s turn"
-
-        return (
-            <div className={classes.heroButtons}>
-                <Container maxWidth="sm">
-                    <Button variant="contained" color="primary" onClick={() => {
-                        this.setState(this.newGame());
-                    }}>
-                        New game
-                    </Button>
-                </Container>
-                <Grid container spacing={2} alignItems="center">
-                    <Grid item xs={6}>
-                        <Paper>
-                            <Typography variant="h5" align="center" color="textSecondary">
-                                {whoseTurnIsIt}
-                            </Typography>
-                            <Board className="tic-tac-game"
-                                   squares={current.squares}
-                                   onClick={i => this.handleClick(i)}
-                            />
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Paper>
-                            <GameMoves history={history} goToMove={this.goToMove} winner={winner}/>
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <GameScoreCards wins={wins} records={records}/>
-                    </Grid>
-                </Grid>
-            </div>
+    // play a sound...
+    if (Audio.play) {
+      if (winner) {
+        Audio.play('/tic-tac-react/sounds/NFF-level-up.wav');
+      } else {
+        Audio.play(
+          isScratch()
+            ? '/tic-tac-react/sounds/NFF-gameover.wav'
+            : '/tic-tac-react/sounds/NFF-ping.wav'
         );
+      }
     }
+  };
+
+  const winner = calculateWinner(currentSquares());
+  const scratchOrPlayerTurnMsg = isScratch() ? "It's a scratch!" : `It's ${currentPlayer()}'s turn`;
+  const whoseTurnIsIt = winner !== null ? `Winner: ${winner}` : scratchOrPlayerTurnMsg;
+
+  return (
+    <div className={classes.heroButtons}>
+      <Container maxWidth="sm">
+        <Button variant="contained" color="primary" onClick={newGame}>
+          New game
+        </Button>
+      </Container>
+      <Grid container spacing={2} alignItems="center">
+        <Grid item xs={6}>
+          <Paper>
+            <Typography variant="h5" align="center" color="textSecondary">
+              {whoseTurnIsIt}
+            </Typography>
+            <Board
+              className="tic-tac-game"
+              squares={currentSquares()}
+              onSquareClick={onSquareClick}
+            />
+          </Paper>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper>
+            <GameMoves moves={moves} onGoToMove={goToMove} winner={winner}/>
+          </Paper>
+        </Grid>
+        <Grid item xs={12}>
+          <GameScoreCards wins={wins.current}/>
+        </Grid>
+      </Grid>
+    </div>
+  );
 }
 
-class GameScoreCards extends React.Component {
-    render() {
-        const {wins, records} = this.props;
-        const games = records.o + records.x + records.scratch;
+TicTacToeGame.propTypes = {
+  classes: PropTypes.string.isRequired
+};
 
-        return (
-            <React.Fragment>
-                <Grid
-                    container
-                    direction="row"
-                    justify="flex-start"
-                    alignItems="flex-start"
-                >
-                    <Grid item xs={12}>
-                        <Paper>
-                            <Typography variant="h4" color="primary" gutterBottom>
-                                Stats
-                            </Typography>
-                            <TableContainer>
-                                <Table size="small">
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell>Player</TableCell>
-                                            <TableCell align="right">Wins</TableCell>
-                                            <TableCell align="right">Losses</TableCell>
-                                            <TableCell align="right">Scratch</TableCell>
-                                            <TableCell align="right">%</TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        <TableRow key="x">
-                                            <TableCell component="th" scope="row">
-                                                X
-                                            </TableCell>
-                                            <TableCell align="right">{records.x}</TableCell>
-                                            <TableCell align="right">{records.o}</TableCell>
-                                            <TableCell align="right">{records.scratch}</TableCell>
-                                            <TableCell align="right">{games ? records.x / games : 0}</TableCell>
-                                        </TableRow>
-                                        <TableRow key="o">
-                                            <TableCell component="th" scope="row">
-                                                O
-                                            </TableCell>
-                                            <TableCell align="right">{records.o}</TableCell>
-                                            <TableCell align="right">{records.x}</TableCell>
-                                            <TableCell align="right">{records.scratch}</TableCell>
-                                            <TableCell align="right">{games ? records.o / games : 0}</TableCell>
-                                        </TableRow>
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Paper>
-                            <Typography variant="h4" color="primary" gutterBottom>
-                                Games played
-                            </Typography>
-                            <Typography variant="h1" color="textSecondary">
-                                {games}
-                            </Typography>
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Paper>
-                            <Typography variant="h4" color="primary" gutterBottom>
-                                Scratches
-                            </Typography>
-                            <Typography variant="h1" color="textSecondary">
-                                {records.scratch}
-                            </Typography>
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Paper>
-                            <Typography variant="h4" color="primary" gutterBottom>
-                                Wins by player
-                            </Typography>
-                            <BarChart data={wins} title="" x="wins" y="player"/>
-                        </Paper>
-                    </Grid>
-                </Grid>
-            </React.Fragment>
-        )
+function GameScoreCards({wins}) {
+  const records = [
+    {
+      player: 'X',
+      wins: wins.x
+    },
+    {
+      player: 'O',
+      wins: wins.o
+    },
+    {
+      player: '-',
+      wins: wins.scratch
     }
+  ];
+
+  const games = wins.o + wins.x + wins.scratch;
+
+  return (
+    <Grid
+      container
+      direction="row"
+      justify="flex-start"
+      alignItems="flex-start"
+    >
+      <Grid item xs={12}>
+        <Paper>
+          <Typography variant="h4" color="primary" gutterBottom>
+            Stats
+          </Typography>
+          <TableContainer>
+            <Table size="small">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Player</TableCell>
+                  <TableCell align="right">Wins</TableCell>
+                  <TableCell align="right">Losses</TableCell>
+                  <TableCell align="right">Scratch</TableCell>
+                  <TableCell align="right">%</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow key="x">
+                  <TableCell component="th" scope="row">
+                    X
+                  </TableCell>
+                  <TableCell align="right">{wins.x}</TableCell>
+                  <TableCell align="right">{wins.o}</TableCell>
+                  <TableCell align="right">{wins.scratch}</TableCell>
+                  <TableCell align="right">
+                    {games ? wins.x / games : 0}
+                  </TableCell>
+                </TableRow>
+                <TableRow key="o">
+                  <TableCell component="th" scope="row">
+                    O
+                  </TableCell>
+                  <TableCell align="right">{wins.o}</TableCell>
+                  <TableCell align="right">{wins.x}</TableCell>
+                  <TableCell align="right">{wins.scratch}</TableCell>
+                  <TableCell align="right">
+                    {games ? wins.o / games : 0}
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Paper>
+      </Grid>
+      <Grid item xs={6}>
+        <Paper>
+          <Typography variant="h4" color="primary" gutterBottom>
+            Games played
+          </Typography>
+          <Typography variant="h1" color="textSecondary">
+            {games}
+          </Typography>
+        </Paper>
+      </Grid>
+      <Grid item xs={6}>
+        <Paper>
+          <Typography variant="h4" color="primary" gutterBottom>
+            Scratches
+          </Typography>
+          <Typography variant="h1" color="textSecondary">
+            {wins.scratch}
+          </Typography>
+        </Paper>
+      </Grid>
+      <Grid item xs={12}>
+        <Paper>
+          <Typography variant="h4" color="primary" gutterBottom>
+            Wins by player
+          </Typography>
+          <BarChart data={records} title="" xLabel="wins" yLabel="player"/>
+        </Paper>
+      </Grid>
+    </Grid>
+  );
 }
 
-class GameMoves extends React.Component {
-    render() {
-        const {goToMove, history, winner} = this.props;
+GameScoreCards.propTypes = {
+  wins: PropTypes.shape({
+    x: PropTypes.number.isRequired,
+    o: PropTypes.number.isRequired,
+    scratch: PropTypes.number.isRequired,
+  }).isRequired,
+};
 
-        const moves = history.map((move, index) => {
-            const isLastMove = (index === history.length - 1);
-            const player = (isLastMove && winner) ?
-                winner === '-' ? "It's a scratch!" : (winner + ' wins!') :
-                index ? index % 2 === 0 ? 'O' : 'X' : '';
+function GameMoves(props) {
+  const {onGoToMove, moves, winner} = props;
 
-            return (
-                <React.Fragment key={'tic-tac-game__move' + index}>
-                    {index ? (
-                            <React.Fragment>
-                                {!isLastMove ? (
-                                        <Icon color="primary">redo</Icon>
-                                    ) : winner ? '' : (<Icon color="primary">redo</Icon>)
-                                }
-                                <span>{player}</span>
-                            </React.Fragment>
-                        ) : ''}
-                    {(isLastMove && winner) ?
-                        '' : (
-                            <Button variant={index ? 'outlined' : 'contained'}
-                                    className="tic-tac-game__move fadeIn"
-                                    size="small"
-                                    color="primary"
-                                    onClick={() => goToMove(index)}>
-                                {index ? index : (<Icon>home</Icon>)}
-                            </Button>
-                        )}
-                </React.Fragment>
-            );
-        });
+  if (moves === undefined || moves === null) {
+    return null;
+  }
 
-        return (
-            <div className="tic-tac-game__moves">
-                <Typography variant="h4" color="primary" gutterBottom>
-                    History
-                </Typography>
-                {moves}
-            </div>
-        );
-    }
+  const winnerMsg = winner === '-' ? "It's a scratch!" : `${winner} wins!`;
+
+  const history = moves.map((move, index) => {
+    const moveNumber = index;
+    const isLastMove = index === moves.length - 1;
+    const player = index % 2 === 0 ? 'O' : 'X';
+
+    const button = (isLastMove && winner) ? winnerMsg : (
+        <Button
+          variant={index ? 'outlined' : 'contained'}
+          className="tic-tac-game__move fadeIn"
+          size="small"
+          color="primary"
+          onClick={() => onGoToMove(index)}
+        >
+          {index ? player : <Icon>home</Icon>}
+        </Button>
+      );
+
+    const icon = isLastMove ? '' : (<Icon color="primary">redo</Icon>);
+
+    return (
+      <React.Fragment key={`tic-tac-game__move${moveNumber}`}>
+        {button}
+        {icon}
+      </React.Fragment>
+    );
+  });
+
+  return (
+    <div className="tic-tac-game__moves">
+      <Typography variant="h4" color="primary" gutterBottom>
+        History
+      </Typography>
+      {history}
+    </div>
+  );
 }
 
-export default Game;
+GameMoves.defaultProps = {
+  winner: null
+};
+
+GameMoves.propTypes = {
+  onGoToMove: PropTypes.func.isRequired,
+  moves: PropTypes.arrayOf(PropTypes.shape({
+    squares: PropTypes.arrayOf(PropTypes.shape({
+      player: PropTypes.string,
+      winning: PropTypes.bool.isRequired
+    })).isRequired
+  })).isRequired,
+  winner: PropTypes.string
+};
+
+export default TicTacToeGame;

@@ -1,35 +1,35 @@
 body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
 
 .react-logo--large,
 .react-logo--small {
-    background: url(logo.svg);
-    background-repeat: no-repeat;
-    display: inline-block;
-    vertical-align: middle;
+  background: url(logo.svg);
+  background-repeat: no-repeat;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .react-logo--large {
-    background-size: 120px;
-    background-position-x: -21px;
-    background-position-y: -8px;
-    height: 75px;
-    width: 75px;
+  background-size: 120px;
+  background-position-x: -21px;
+  background-position-y: -8px;
+  height: 75px;
+  width: 75px;
 }
 
 .react-logo--small {
-    background-size: 30px;
-    height: 30px;
-    width: 30px;
+  background-size: 30px;
+  height: 30px;
+  width: 30px;
 }

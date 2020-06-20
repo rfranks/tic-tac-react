@@ -1,68 +1,96 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import './Board.css';
 
-class Square extends React.Component {
-    render() {
-        const {winning, player} = this.props;
+function Square({onSquareClick, player, position, winning = false}) {
+  const classes = ['square', winning ? 'square--winner' : ''].join(' ');
 
-        const classes = [
-            'square',
-            winning ? 'square--winner' : ''
-        ].join(' ');
+  const handleSquareClick = evt => {
+    if (player !== undefined && player !== null) {
+      // if the square is already taken, then do nothing
+      evt.preventDefault();
+    } else {
+      onSquareClick(position);
 
-        return (
-            <button className={classes} onClick={this.props.onClick}>
-                {player}
-            </button>
-        )
+      const {classList} = evt.target;
+      classList.remove('flipInY');
+
+      setTimeout(function updateClasses() {
+        classList.add('flipInY');
+      }, 0);
     }
+  };
+
+  return (
+    <button type="button" className={classes} onClick={handleSquareClick}>
+      {player}
+    </button>
+  );
 }
 
-class Board extends React.Component {
-    renderSquare(i) {
-        const {player, winning} = this.props.squares[i];
+Square.defaultProps = {
+  player: null,
+};
+
+Square.propTypes = {
+  onSquareClick: PropTypes.func.isRequired,
+  player: PropTypes.string,
+  position: PropTypes.number.isRequired,
+  winning: PropTypes.bool.isRequired,
+};
+
+
+export default function Board({squares, onSquareClick}) {
+  let winner = false;
+
+  const rows = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+  ];
+
+  const handleSquareClick = position => {
+    // if we don't have a winner yet, allow the click
+    if (!winner) {
+      onSquareClick(position);
+    }
+  };
+
+  return (
+    <div className="tic-tac-board">
+      {rows.map((row, index) => {
+        const rowNumber = index;
 
         return (
-            <Square
-                player={player}
-                winning={winning}
-                onClick={(e) => {
-                    this.props.onClick(i);
+          <div key={rowNumber} className="tic-tac-board__row">
+            {row.map(position => {
+              const {player, winning} = squares[position];
 
-                    e.target.innerText.trim().length === 0 && function () {
-                        let classes = e.target.classList;
-                        classes.remove('flipInY');
+              winner = winner || winning;
 
-                        setTimeout(function () {
-                            classes.add('flipInY');
-                        }, 0);
-                    }();
-                }}
-            />
+              return (
+                <Square
+                  key={position}
+                  position={position}
+                  player={player}
+                  winning={winning}
+                  onSquareClick={handleSquareClick}
+                />
+              );
+            })}
+          </div>
         );
-    }
-
-    render() {
-        return (
-            <div className="tic-tac-board">
-                <div className="tic-tac-board__row">
-                    {this.renderSquare(0)}
-                    {this.renderSquare(1)}
-                    {this.renderSquare(2)}
-                </div>
-                <div className="tic-tac-board__row">
-                    {this.renderSquare(3)}
-                    {this.renderSquare(4)}
-                    {this.renderSquare(5)}
-                </div>
-                <div className="tic-tac-board__row">
-                    {this.renderSquare(6)}
-                    {this.renderSquare(7)}
-                    {this.renderSquare(8)}
-                </div>
-            </div>
-        );
-    }
+      })}
+    </div>
+  );
 }
 
-export default Board;
+Board.propTypes = {
+  onSquareClick: PropTypes.func.isRequired,
+  squares: PropTypes.arrayOf(
+    PropTypes.shape({
+      player: PropTypes.string,
+      winning: PropTypes.bool.isRequired
+  })).isRequired,
+};

@@ -1,20 +1,20 @@
 .tic-tac-game {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .tic-tac-game__move.MuiButtonBase-root {
-    margin-left: -7px;
-    min-width: 0;
-    border-radius: 50%;
+  margin-left: -7px;
+  min-width: 0;
+  border-radius: 50%;
 }
 
 .tic-tac-game__move.MuiButtonBase-root:nth-child(2) {
-    margin-left: 5px;
+  margin-left: 5px;
 }
 
 .tic-tac-game__moves > .MuiIcon-root + span {
-    position: relative;
-    left: -17px;
-    top: 4px;
+  position: relative;
+  left: -17px;
+  top: 4px;
 }
