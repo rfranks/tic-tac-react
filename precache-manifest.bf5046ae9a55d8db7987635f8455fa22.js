@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "20590ff34a0299ba0e511a1e7ad72680",
+    "revision": "aa6dcd8304057a551d5ffc9f599a1391",
     "url": "/tic-tac-react/index.html"
   },
   {
-    "revision": "e8cceb8d023757776c37",
-    "url": "/tic-tac-react/static/css/main.04db8b9b.chunk.css"
+    "revision": "e5ccbaf5bc821f65cc39",
+    "url": "/tic-tac-react/static/css/main.f194ebba.chunk.css"
   },
   {
-    "revision": "e639e9352c7739763ed8",
-    "url": "/tic-tac-react/static/js/2.bb6371ca.chunk.js"
+    "revision": "0fe447f762ffb1114b58",
+    "url": "/tic-tac-react/static/js/2.c105830f.chunk.js"
   },
   {
     "revision": "0749163b59fbee32225059cb60c18af6",
-    "url": "/tic-tac-react/static/js/2.bb6371ca.chunk.js.LICENSE.txt"
+    "url": "/tic-tac-react/static/js/2.c105830f.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "e8cceb8d023757776c37",
-    "url": "/tic-tac-react/static/js/main.0cc2bad6.chunk.js"
+    "revision": "e5ccbaf5bc821f65cc39",
+    "url": "/tic-tac-react/static/js/main.3530a1ce.chunk.js"
   },
   {
     "revision": "b81ea45138b1148121d2",
