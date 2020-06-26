@@ -3,22 +3,27 @@ import PropTypes from 'prop-types';
 
 import './Board.css';
 
-function Square({ onSquareClick, player, position, winning = false }) {
+export function Square({ onSquareClick, player, position, winning = false }) {
   const classes = ['square', winning ? 'square--winner' : ''].join(' ');
 
   const handleSquareClick = (evt) => {
     if (player !== undefined && player !== null) {
       // if the square is already taken, then do nothing
-      evt.preventDefault();
+
+      if (evt) {
+        evt.preventDefault();
+      }
     } else {
       onSquareClick(position);
 
-      const { classList } = evt.target;
-      classList.remove('flipInY');
+      if (evt) {
+        const { classList } = evt.target;
+        classList.remove('flipInY');
 
-      setTimeout(function updateClasses() {
-        classList.add('flipInY');
-      }, 0);
+        setTimeout(function updateClasses() {
+          classList.add('flipInY');
+        }, 0);
+      }
     }
   };
 

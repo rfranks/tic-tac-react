@@ -12,10 +12,14 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
 
-### `npm test`
+### `npm run test`
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Launches the Jest test runner. The results are printed to the terminal screen and logged to `jest-results.html`.<br />
+
+Additional resources:
+
+- [jest](https://jestjs.io/)
+- [jest-html-reporters](https://github.com/Hazyzh/jest-html-reporters#readme)
 
 ### `npm run build`
 

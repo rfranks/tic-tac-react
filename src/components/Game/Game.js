@@ -19,6 +19,43 @@ import Board from '../Board/Board';
 
 import './Game.css';
 
+// figure out if we have a winner
+export const calculateWinner = (squares) => {
+  let winner = null;
+
+  const winningLines = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+
+  winningLines.forEach((line) => {
+    const [x, y, z] = line;
+
+    if (
+      squares[x].player &&
+      squares[x].player === squares[y].player &&
+      squares[x].player === squares[z].player
+    ) {
+      // eslint-disable-next-line no-param-reassign
+      squares[x].winning = true;
+      // eslint-disable-next-line no-param-reassign
+      squares[y].winning = true;
+      // eslint-disable-next-line no-param-reassign
+      squares[z].winning = true;
+
+      winner = squares[x].player;
+    }
+  });
+
+  return winner;
+};
+
 function TicTacToeGame({ classes }) {
   const [moves, setMoves] = useState([]);
 
@@ -52,45 +89,8 @@ function TicTacToeGame({ classes }) {
     return null;
   }
 
-  // figure out if we have a winner
-  const calculateWinner = (squares) => {
-    let winner = null;
-
-    const winningLines = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6],
-    ];
-
-    winningLines.forEach((line) => {
-      const [x, y, z] = line;
-
-      if (
-        squares[x].player &&
-        squares[x].player === squares[y].player &&
-        squares[x].player === squares[z].player
-      ) {
-        // eslint-disable-next-line no-param-reassign
-        squares[x].winning = true;
-        // eslint-disable-next-line no-param-reassign
-        squares[y].winning = true;
-        // eslint-disable-next-line no-param-reassign
-        squares[z].winning = true;
-
-        winner = squares[x].player;
-      }
-    });
-
-    return winner;
-  };
-
   const currentMove = () => {
-    return moves.length - 1;
+    return moves.length === 0 ? 0 : moves.length - 1;
   };
 
   const currentPlayer = () => {
