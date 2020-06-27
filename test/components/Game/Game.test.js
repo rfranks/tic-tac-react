@@ -1,18 +1,18 @@
-import { calculateWinner } from '../../../src/components/Game/Game';
+import {calculateWinner} from '../../../src/components/Game/Game';
 
 describe('calculateWinner', () => {
   it('evaluates to "X" when the winner is X', () => {
     expect(
       calculateWinner([
-        { player: 'X' },
-        { player: 'X' },
-        { player: 'X' },
-        { player: null },
-        { player: null },
-        { player: null },
-        { player: null },
-        { player: null },
-        { player: null },
+        {player: 'X'},
+        {player: 'X'},
+        {player: 'X'},
+        {player: null},
+        {player: null},
+        {player: null},
+        {player: null},
+        {player: null},
+        {player: null},
       ])
     ).toEqual('X');
   });
@@ -20,15 +20,15 @@ describe('calculateWinner', () => {
   it('evaluates to "O" when the winner is O', () => {
     expect(
       calculateWinner([
-        { player: 'O' },
-        { player: 'O' },
-        { player: 'O' },
-        { player: null },
-        { player: null },
-        { player: null },
-        { player: null },
-        { player: null },
-        { player: null },
+        {player: 'O'},
+        {player: 'O'},
+        {player: 'O'},
+        {player: null},
+        {player: null},
+        {player: null},
+        {player: null},
+        {player: null},
+        {player: null},
       ])
     ).toEqual('O');
   });
@@ -36,15 +36,15 @@ describe('calculateWinner', () => {
   it('evaluates to null when there is no winner', () => {
     expect(
       calculateWinner([
-        { player: 'O' },
-        { player: 'X' },
-        { player: 'O' },
-        { player: null },
-        { player: null },
-        { player: null },
-        { player: null },
-        { player: null },
-        { player: null },
+        {player: 'O'},
+        {player: 'X'},
+        {player: 'O'},
+        {player: null},
+        {player: null},
+        {player: null},
+        {player: null},
+        {player: null},
+        {player: null},
       ])
     ).toBe(null);
   });

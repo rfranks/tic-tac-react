@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import './Board.css';
 
-export function Square({ onSquareClick, player, position, winning = false }) {
+export function Square({onSquareClick, player, position, winning = false}) {
   const classes = ['square', winning ? 'square--winner' : ''].join(' ');
 
   const handleSquareClick = (evt) => {
@@ -17,7 +17,7 @@ export function Square({ onSquareClick, player, position, winning = false }) {
       onSquareClick(position);
 
       if (evt) {
-        const { classList } = evt.target;
+        const {classList} = evt.target;
         classList.remove('flipInY');
 
         setTimeout(function updateClasses() {
@@ -45,7 +45,7 @@ Square.propTypes = {
   winning: PropTypes.bool.isRequired,
 };
 
-export default function Board({ squares, onSquareClick }) {
+export default function Board({squares, onSquareClick}) {
   let winner = false;
 
   const rows = [
@@ -69,7 +69,7 @@ export default function Board({ squares, onSquareClick }) {
         return (
           <div key={rowNumber} className="tic-tac-board__row">
             {row.map((position) => {
-              const { player, winning } = squares[position];
+              const {player, winning} = squares[position];
 
               winner = winner || winning;
 

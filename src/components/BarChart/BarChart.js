@@ -1,17 +1,17 @@
-import React, { useEffect, useRef } from 'react';
+import React, {useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
 
-import { select } from 'd3-selection';
-import { max } from 'd3-array';
-import { scaleLinear, scaleBand } from 'd3-scale';
-import { axisLeft, axisBottom } from 'd3-axis';
+import {select} from 'd3-selection';
+import {max} from 'd3-array';
+import {scaleLinear, scaleBand} from 'd3-scale';
+import {axisLeft, axisBottom} from 'd3-axis';
 
 import './BarChart.css';
 
-const BarChart = ({ data, title, xLabel, yLabel }) => {
+const BarChart = ({data, title, xLabel, yLabel}) => {
   const d3svg = useRef(null);
   // margin convention often used with D3
-  const margin = { top: 80, right: 60, bottom: 80, left: 60 };
+  const margin = {top: 80, right: 60, bottom: 80, left: 60};
   const width = 500 - margin.left - margin.right;
   const height = 300 - margin.top - margin.bottom;
   const color = ['#3f51b5', '#61dafb', '#b33535', '#283250'];

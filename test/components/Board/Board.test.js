@@ -5,9 +5,9 @@ import Board, {Square} from '../../../src/components/Board/Board';
 const coreSquareSpecs = (squareProps, asShallow) => {
   const square = asShallow
     ? // eslint-disable-next-line react/jsx-props-no-spreading
-    shallow(<Square {...squareProps} />)
+      shallow(<Square {...squareProps} />)
     : // eslint-disable-next-line react/jsx-props-no-spreading
-    mount(<Square {...squareProps} />);
+      mount(<Square {...squareProps} />);
   const button = square.find('button[type="button"]');
 
   it('should match its snapshot', () => {
@@ -121,9 +121,9 @@ describe('Given a "winning" <Square />', () => {
 const coreBoardSpecs = (boardProps, asShallow) => {
   const board = asShallow
     ? // eslint-disable-next-line react/jsx-props-no-spreading
-    shallow(<Board {...boardProps} />)
+      shallow(<Board {...boardProps} />)
     : // eslint-disable-next-line react/jsx-props-no-spreading
-    mount(<Board {...boardProps} />);
+      mount(<Board {...boardProps} />);
   const gameBoard = board.find('div.tic-tac-board');
 
   it('should match its snapshot', () => {

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, {useState, useRef} from 'react';
 import PropTypes from 'prop-types';
 
 import Button from '@material-ui/core/Button';
@@ -56,7 +56,7 @@ export const calculateWinner = (squares) => {
   return winner;
 };
 
-function TicTacToeGame({ classes }) {
+function TicTacToeGame({classes}) {
   const [moves, setMoves] = useState([]);
 
   const wins = useRef({
@@ -117,7 +117,7 @@ function TicTacToeGame({ classes }) {
     const newSquares = new Array(9).fill('');
 
     newSquares.forEach((square, index) => {
-      const { player, winning } = squares[index];
+      const {player, winning} = squares[index];
       newSquares[index] = {
         player,
         winning,
@@ -130,10 +130,10 @@ function TicTacToeGame({ classes }) {
 
     if (isScratch(newSquares)) {
       wins.current.scratch += 1;
-      wins.current = { ...wins.current };
+      wins.current = {...wins.current};
     } else if (winner !== null) {
       wins.current[winner.toLowerCase()] += 1;
-      wins.current = { ...wins.current };
+      wins.current = {...wins.current};
     }
 
     setMoves(
@@ -202,7 +202,7 @@ TicTacToeGame.propTypes = {
   classes: PropTypes.string.isRequired,
 };
 
-function GameScoreCards({ wins }) {
+function GameScoreCards({wins}) {
   const records = [
     {
       player: 'X',
@@ -312,7 +312,7 @@ GameScoreCards.propTypes = {
 };
 
 function GameMoves(props) {
-  const { onGoToMove, moves, winner } = props;
+  const {onGoToMove, moves, winner} = props;
 
   if (moves === undefined || moves === null) {
     return null;

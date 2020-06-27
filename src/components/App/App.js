@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
 
-import { useStyles } from '../../theme';
+import {useStyles} from '../../theme';
 import Game from '../Game/Game';
 
 import './App.css';
