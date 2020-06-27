@@ -1,13 +1,13 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
-import Board, { Square } from '../../../src/components/Board/Board';
+import {shallow, mount} from 'enzyme';
+import Board, {Square} from '../../../src/components/Board/Board';
 
 const coreSquareSpecs = (squareProps, asShallow) => {
   const square = asShallow
-    // eslint-disable-next-line react/jsx-props-no-spreading
-    ? shallow(<Square {...squareProps} />)
-    // eslint-disable-next-line react/jsx-props-no-spreading
-    : mount(<Square {...squareProps} />);
+    ? // eslint-disable-next-line react/jsx-props-no-spreading
+    shallow(<Square {...squareProps} />)
+    : // eslint-disable-next-line react/jsx-props-no-spreading
+    mount(<Square {...squareProps} />);
   const button = square.find('button[type="button"]');
 
   it('should match its snapshot', () => {
@@ -120,10 +120,10 @@ describe('Given a "winning" <Square />', () => {
 
 const coreBoardSpecs = (boardProps, asShallow) => {
   const board = asShallow
-    // eslint-disable-next-line react/jsx-props-no-spreading
-    ? shallow(<Board {...boardProps} />)
-    // eslint-disable-next-line react/jsx-props-no-spreading
-    : mount(<Board {...boardProps} />);
+    ? // eslint-disable-next-line react/jsx-props-no-spreading
+    shallow(<Board {...boardProps} />)
+    : // eslint-disable-next-line react/jsx-props-no-spreading
+    mount(<Board {...boardProps} />);
   const gameBoard = board.find('div.tic-tac-board');
 
   it('should match its snapshot', () => {
@@ -174,15 +174,15 @@ describe('A <Board />', () => {
   const initialProps = {
     onSquareClick: jest.fn(),
     squares: [
-      { player: null, winning: false },
-      { player: null, winning: false },
-      { player: null, winning: false },
-      { player: null, winning: false },
-      { player: null, winning: false },
-      { player: null, winning: false },
-      { player: null, winning: false },
-      { player: null, winning: false },
-      { player: null, winning: false },
+      {player: null, winning: false},
+      {player: null, winning: false},
+      {player: null, winning: false},
+      {player: null, winning: false},
+      {player: null, winning: false},
+      {player: null, winning: false},
+      {player: null, winning: false},
+      {player: null, winning: false},
+      {player: null, winning: false},
     ],
   };
 
