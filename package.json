@@ -90,6 +90,7 @@
   },
   "jest": {
     "bail": 1,
+    "coverageDirectory": "./build/test-results/coverage",
     "moduleNameMapper": {
       "\\.(css|less)$": "identity-obj-proxy"
     },
@@ -99,6 +100,7 @@
       [
         "jest-html-reporters",
         {
+          "publicPath": "./build/test-results",
           "filename": "jest-results.html"
         }
       ]
