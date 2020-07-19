@@ -1,12 +1,14 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Getting Started
+# Getting started
 
-## Adding a Component
+# Adding a component
 
-## Available Scripts
+# Available scripts
 
 In the project directory, you can run:
+
+## `start` scripts
 
 ### `npm run start`
 
@@ -18,12 +20,19 @@ You will also see any lint errors in the console.
 
 ### `npm run test`
 
-Launches the Jest test runner. The results are printed to the terminal screen and logged to `jest-results.html`.<br />
+Launches the Jest test runner. 
+The results are printed to the terminal screen and logged to `jest-results.html`.<br />
 
 Additional resources:
 
 - [jest](https://jestjs.io/)
 - [jest-html-reporters](https://github.com/Hazyzh/jest-html-reporters#readme)
+
+## `build` scripts
+    "build": "npm install && react-scripts build && npm run test && npm run build-jsdoc && npm run build-storybook",
+    "build--no-test": "npm install && react-scripts build && npm run build-jsdoc && npm run build-storybook",
+    "build-jsdoc": "jsdoc -c package-jsdoc.json",
+    "build-storybook": "build-storybook -s public -c .storybook -o ./build/docs/storybook/",
 
 ### `npm run build`
 
@@ -34,6 +43,11 @@ The build is minified and the filenames include the hashes.<br />
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### `npm run build--no-test`
+
+Builds the app for production to the `build` folder, bypassing all tests.  __BEWARE!__
+
 
 ### `npm run eject`
 

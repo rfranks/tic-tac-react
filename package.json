@@ -62,11 +62,29 @@
     "test": "jest",
     "test-debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
     "eject": "react-scripts eject",
-    "predeploy": "npm run build--no-test",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "storybook": "start-storybook -p 9009 -s public",
     "lint": "eslint .",
     "format": "prettier --write \"src/**/*.+(js|jsx|json|yml|yaml|css|md|vue)\""
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
   "eslintConfig": {
     "extends": [
@@ -93,20 +111,13 @@
       ]
     }
   },
-  "prettier": {
-    "bracketSpacing": false,
-    "trailingComma": "es5",
-    "tabWidth": 2,
-    "semi": true,
-    "singleQuote": true
-  },
   "eslintIgnore": [
     "build/*",
     "tutorials/*"
   ],
   "husky": {
     "hooks": {
-      "pre-commit": "npm run format && npm run lint"
+      "pre-commit": "npm run format && npm run lint && npm run test"
     }
   },
   "jest": {
@@ -115,9 +126,9 @@
     "coverageDirectory": "./build/docs/test-results/coverage",
     "coverageThreshold": {
       "global": {
-        "branches": 80,
-        "functions": 80,
-        "lines": 80,
+        "branches": 25,
+        "functions": 25,
+        "lines": 25,
         "statements": -100
       }
     },
@@ -140,23 +151,12 @@
     ],
     "verbose": false
   },
-  "babel": {
-    "presets": [
-      "@babel/preset-env",
-      "@babel/preset-react"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "prettier": {
+    "bracketSpacing": false,
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "semi": true,
+    "singleQuote": true
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
