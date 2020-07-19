@@ -1,6 +1,6 @@
-import {calculateWinner} from '../../../src/components/Game/Game';
+import {calculateWinner, currentMove, currentPlayer} from '../../../src/components/Game/Game';
 
-describe('calculateWinner', () => {
+describe('calculateWinner()', () => {
   it('evaluates to "X" when the winner is X', () => {
     expect(
       calculateWinner([
@@ -75,3 +75,42 @@ describe('calculateWinner', () => {
   // it('should have proper props for submit button', () => { /* */
   // });
 });
+
+describe('currentMove()', () => {
+  it('returns "0" for an empty moves list([])', () => {
+    expect(currentMove([])).toBe(0);
+  });
+
+  it('returns move number for populated moves list', () => {
+    expect(currentMove([{}])).toBe(0);
+    expect(currentMove([{}, {}])).toBe(1);
+    expect(currentMove([{}, {}, {}])).toBe(2);
+  });
+});
+
+describe('currentPlayer()', () => {
+  it('returns "X" for a moves list for a game that has not started', () => {
+    expect(currentPlayer([])).toBe("X");
+  });
+
+  it('returns "O" for moves lists with even lengths', () => {
+    expect(currentPlayer([{}, {}])).toBe("O");
+    expect(currentPlayer([{}, {}, {}, {}])).toBe("O");
+  });
+
+  it('returns "X" for moves lists with odd lengths', () => {
+    expect(currentPlayer([{}])).toBe("X");
+    expect(currentPlayer([{}, {}, {}])).toBe("X");
+  });
+});
+//
+// export const currentSquares = (moves) => {
+//   return moves[currentMove(moves)].squares;
+// };
+//
+// export const isTie = (squares, moves) => {
+//   return (
+//     currentMove(moves) === (squares ? 8 : 9) &&
+//     calculateWinner(squares || currentSquares(moves)) === null
+//   );
+// };

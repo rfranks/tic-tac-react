@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`A <Board /> should match its snapshot 1`] = `"<div class=\\"tic-tac-board\\"><div class=\\"tic-tac-board__row\\"><button type=\\"button\\" class=\\"square \\"></button><button type=\\"button\\" class=\\"square \\"></button><button type=\\"button\\" class=\\"square \\"></button></div><div class=\\"tic-tac-board__row\\"><button type=\\"button\\" class=\\"square \\"></button><button type=\\"button\\" class=\\"square \\"></button><button type=\\"button\\" class=\\"square \\"></button></div><div class=\\"tic-tac-board__row\\"><button type=\\"button\\" class=\\"square \\"></button><button type=\\"button\\" class=\\"square \\"></button><button type=\\"button\\" class=\\"square \\"></button></div></div>"`;
-
-exports[`Given a "winning" <Square /> should match its snapshot 1`] = `"<button type=\\"button\\" class=\\"square square--winner\\">X</button>"`;
-
-exports[`Given a <Square /> with a player should match its snapshot 1`] = `"<button type=\\"button\\" class=\\"square \\">X</button>"`;
-
-exports[`Given a <Square /> without a player should match its snapshot 1`] = `"<button type=\\"button\\" class=\\"square \\"></button>"`;
