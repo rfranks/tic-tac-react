@@ -1,4 +1,4 @@
-import {calculateWinner, currentMove, currentPlayer} from '../../../src/components/Game/Game';
+import {calculateWinner, currentMove, currentPlayer} from './Game';
 
 describe('calculateWinner()', () => {
   it('evaluates to "X" when the winner is X', () => {
@@ -90,17 +90,17 @@ describe('currentMove()', () => {
 
 describe('currentPlayer()', () => {
   it('returns "X" for a moves list for a game that has not started', () => {
-    expect(currentPlayer([])).toBe("X");
+    expect(currentPlayer([])).toBe('X');
   });
 
   it('returns "O" for moves lists with even lengths', () => {
-    expect(currentPlayer([{}, {}])).toBe("O");
-    expect(currentPlayer([{}, {}, {}, {}])).toBe("O");
+    expect(currentPlayer([{}, {}])).toBe('O');
+    expect(currentPlayer([{}, {}, {}, {}])).toBe('O');
   });
 
   it('returns "X" for moves lists with odd lengths', () => {
-    expect(currentPlayer([{}])).toBe("X");
-    expect(currentPlayer([{}, {}, {}])).toBe("X");
+    expect(currentPlayer([{}])).toBe('X');
+    expect(currentPlayer([{}, {}, {}])).toBe('X');
   });
 });
 //

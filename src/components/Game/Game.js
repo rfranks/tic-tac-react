@@ -56,6 +56,25 @@ export const calculateWinner = (squares) => {
   return winner;
 };
 
+export const currentMove = (moves) => {
+  return moves.length === 0 ? 0 : moves.length - 1;
+};
+
+export const currentPlayer = (moves) => {
+  return currentMove(moves) % 2 === 0 ? 'X' : 'O';
+};
+
+export const currentSquares = (moves) => {
+  return moves[currentMove(moves)].squares;
+};
+
+export const isTie = (squares, moves) => {
+  return (
+    currentMove(moves) === (squares ? 8 : 9) &&
+    calculateWinner(squares || currentSquares(moves)) === null
+  );
+};
+
 function TicTacToeGame({classes}) {
   const [moves, setMoves] = useState([]);
 
@@ -89,31 +108,12 @@ function TicTacToeGame({classes}) {
     return null;
   }
 
-  const currentMove = () => {
-    return moves.length === 0 ? 0 : moves.length - 1;
-  };
-
-  const currentPlayer = () => {
-    return currentMove() % 2 === 0 ? 'X' : 'O';
-  };
-
-  const currentSquares = () => {
-    return moves[currentMove()].squares;
-  };
-
   const goToMove = (move) => {
     setMoves(moves.slice(0, move + 1));
   };
 
-  const isScratch = (squares) => {
-    return (
-      currentMove() === (squares ? 8 : 9) &&
-      calculateWinner(squares || currentSquares()) === null
-    );
-  };
-
   const onSquareClick = (position) => {
-    const squares = currentSquares();
+    const squares = currentSquares(moves);
     const newSquares = new Array(9).fill('');
 
     newSquares.forEach((square, index) => {
@@ -124,11 +124,11 @@ function TicTacToeGame({classes}) {
       };
     });
 
-    newSquares[position].player = currentPlayer();
+    newSquares[position].player = currentPlayer(moves);
 
     const winner = calculateWinner(newSquares);
 
-    if (isScratch(newSquares)) {
+    if (isTie(newSquares, moves)) {
       wins.current.scratch += 1;
       wins.current = {...wins.current};
     } else if (winner !== null) {
@@ -150,7 +150,7 @@ function TicTacToeGame({classes}) {
         Audio.play('/tic-tac-react/sounds/NFF-level-up.wav');
       } else {
         Audio.play(
-          isScratch()
+          isTie(null, moves)
             ? '/tic-tac-react/sounds/NFF-gameover.wav'
             : '/tic-tac-react/sounds/NFF-ping.wav'
         );
@@ -158,10 +158,10 @@ function TicTacToeGame({classes}) {
     }
   };
 
-  const winner = calculateWinner(currentSquares());
-  const scratchOrPlayerTurnMsg = isScratch()
+  const winner = calculateWinner(currentSquares(moves));
+  const scratchOrPlayerTurnMsg = isTie(null, moves)
     ? "It's a scratch!"
-    : `It's ${currentPlayer()}'s turn`;
+    : `It's ${currentPlayer(moves)}'s turn`;
   const whoseTurnIsIt =
     winner !== null ? `Winner: ${winner}` : scratchOrPlayerTurnMsg;
 
@@ -180,7 +180,7 @@ function TicTacToeGame({classes}) {
             </Typography>
             <Board
               className="tic-tac-game"
-              squares={currentSquares()}
+              squares={currentSquares(moves)}
               onSquareClick={onSquareClick}
             />
           </Paper>

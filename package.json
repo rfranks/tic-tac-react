@@ -17,9 +17,18 @@
   "dependencies": {
     "@material-ui/core": "^4.9.12",
     "@material-ui/icons": "^4.9.1",
+    "@storybook/addon-actions": "^5.3.19",
+    "@storybook/addon-knobs": "^5.3.19",
+    "@storybook/addon-links": "^5.3.19",
+    "@storybook/addon-notes": "^5.3.19",
+    "@storybook/addon-storysource": "^5.3.19",
+    "@storybook/addons": "^5.3.19",
+    "@storybook/preset-create-react-app": "^3.1.4",
+    "@storybook/react": "^5.3.19",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "better-docs": "^2.3.0",
     "d3-array": "2.0.3",
     "d3-axis": "1.0.12",
     "d3-fetch": "1.1.2",
@@ -30,23 +39,34 @@
     "d3-time-format": "2.1.3",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
+    "jsdoc": "^3.6.4",
     "jsdom-global": "3.0.2",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
+    "storybook-addon-preview": "^1.2.0",
     "typescript": "^3.9.5"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "jest --coverage --verbose=false",
+    "start--docs": "./node_modules/.bin/http-server ./build/docs -o \\ -c-1",
+    "start--storybook": "./node_modules/.bin/http-server ./build/docs/storybook -o \\ -c-1",
+    "start--test-results": "./node_modules/.bin/http-server ./build/docs/test-results -o \\ -c-1",
+    "start--test-coverage": "./node_modules/.bin/http-server ./build/docs/test-results/coverage/lcov-report -o \\ -c-1",
+    "clean": "rm -rf ./build && rm -rf ./node_modules",
+    "build": "npm install && react-scripts build && npm run test && npm run build-jsdoc && npm run build-storybook",
+    "build--no-test": "npm install && react-scripts build && npm run build-jsdoc && npm run build-storybook",
+    "build-jsdoc": "jsdoc -c package-jsdoc.json",
+    "build-storybook": "build-storybook -s public -c .storybook -o ./build/docs/storybook/",
+    "test": "jest",
     "test-debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
     "eject": "react-scripts eject",
-    "predeploy": "npm run build",
+    "predeploy": "npm run build--no-test",
     "deploy": "gh-pages -d build",
+    "storybook": "start-storybook -p 9009 -s public",
     "lint": "eslint .",
-    "format": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|md|vue)\""
+    "format": "prettier --write \"src/**/*.+(js|jsx|json|yml|yaml|css|md|vue)\""
   },
   "eslintConfig": {
     "extends": [
@@ -81,16 +101,26 @@
     "singleQuote": true
   },
   "eslintIgnore": [
-    "build/*"
+    "build/*",
+    "tutorials/*"
   ],
   "husky": {
     "hooks": {
-      "pre-commit": "npm run format && npm run lint && npm run test"
+      "pre-commit": "npm run format && npm run lint"
     }
   },
   "jest": {
     "bail": 1,
-    "coverageDirectory": "./build/test-results/coverage",
+    "collectCoverage": true,
+    "coverageDirectory": "./build/docs/test-results/coverage",
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": -100
+      }
+    },
     "moduleNameMapper": {
       "\\.(css|less)$": "identity-obj-proxy"
     },
@@ -100,15 +130,15 @@
       [
         "jest-html-reporters",
         {
-          "publicPath": "./build/test-results",
-          "filename": "jest-results.html"
+          "publicPath": "./build/docs/test-results",
+          "filename": "index.html"
         }
       ]
     ],
     "setupFilesAfterEnv": [
       "<rootDir>/src/setupTests.js"
     ],
-    "verbose": true
+    "verbose": false
   },
   "babel": {
     "presets": [
@@ -129,8 +159,10 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.10.5",
     "@babel/preset-env": "^7.10.3",
     "@babel/preset-react": "^7.10.1",
+    "babel-loader": "^8.1.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-prettier": "^6.11.0",
@@ -141,11 +173,14 @@
     "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-react-hooks": "^2.5.1",
     "gh-pages": "^2.2.0",
+    "http-server": "^0.11.1",
     "husky": "^4.2.5",
     "identity-obj-proxy": "^3.0.0",
+    "ink-docstrap": "^1.3.2",
     "jest-html-reporters": "^2.0.1",
     "jest-puppeteer": "^4.4.0",
     "jsdom": "16.2.2",
+    "parcel-bundler": "^1.12.4",
     "prettier": "^2.0.5",
     "puppeteer": "^4.0.1",
     "react-test-renderer": "^16.13.1"

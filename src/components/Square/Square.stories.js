@@ -1,19 +1,18 @@
-import React from "react";
-import {withKnobs, text, boolean, number} from "@storybook/addon-knobs";
-import {action} from "@storybook/addon-actions";
+import React from 'react';
+import {withKnobs, text, boolean, number} from '@storybook/addon-knobs';
+import {action} from '@storybook/addon-actions';
 
-import {Square} from "./Board";
+import Square from './Square';
 
 import intro from './docs/intro.md';
-import board from './docs/board.md';
 import square from './docs/square.md';
 
 export default {
-  title: "Board/Square",
+  title: 'Square',
   component: Square,
   decorators: [withKnobs],
   parameters: {
-    notes: {Introduction: intro, Square: square, Board: board},
+    notes: {Introduction: intro, Square: square},
   },
 };
 
@@ -26,7 +25,7 @@ export const basicSquare = () => (
       step: 1,
     })}
     player={text('Player', 'X')}
-    winning={boolean("Winning", false)}
+    winning={boolean('Winning', false)}
     onSquareClick={action('clicked')}
   />
 );
