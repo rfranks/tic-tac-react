@@ -124,8 +124,9 @@
 
 
     <section>
-        <article><p>This project was bootstrapped with <a href="https://github.com/facebook/create-react-app">Create React App</a>.</p>
+        <article><p><a href="/tic-tac-react/docs">Documentation</a> | <a href="/tic-tac-react/docs/test-results/">Test Results</a> | <a href="/tic-tac-react/docs/test-results/coverage/lcov-report/">Test Coverage Report</a></p>
 <h1>Getting started</h1>
+<p>This project was initially bootstrapped with <a href="https://github.com/facebook/create-react-app">Create React App</a>.</p>
 <h1>Adding a component</h1>
 <h1>Available scripts</h1>
 <p>In the project directory, you can run:</p>
@@ -150,13 +151,29 @@ The results are printed to the terminal screen and logged to <code>jest-results.
 &quot;build-storybook&quot;: &quot;build-storybook -s public -c .storybook -o ./build/docs/storybook/&quot;,
 </code></pre>
 <h3><code>npm run build</code></h3>
-<p>Builds the app for production to the <code>build</code> folder.<br /><br>
-It correctly bundles React in production mode and optimizes the build for the best performance.</p>
-<p>The build is minified and the filenames include the hashes.<br /><br>
-Your app is ready to be deployed!</p>
-<p>See the section about <a href="https://facebook.github.io/create-react-app/docs/deployment">deployment</a> for more information.</p>
+<p>Builds the app for production to the <code>build</code> folder.</p>
+<p>This includes:</p>
+<ul>
+<li>installing <code>node_modules</code> via <code>npm install</code>,</li>
+<li>bundling React in production mode via <code>react-scripts build</code>,</li>
+<li>optimizing the build for the best performance via <code>react-scripts build</code>,</li>
+<li>running all tests to make sure that they all pass and that code coverage levels are met via <code>npm run test</code></li>
+<li>building <code>jsdoc</code> documentation via <code>npm run build-jsdoc</code></li>
+<li>builds <code>sotrybook</code> documentation via <code>npm run build-storybook</code></li>
+</ul>
+<p>The build is minified and the filenames include the hashes.</p>
+<p>Your app is ready to be deployed!  See <code>npm run deploy</code> to deploy to Github.</p>
+<p>See the section about <a href="https://facebook.github.io/create-react-app/docs/deployment">deployment</a> for more information<br>
+on deploying react apps.</p>
 <h3><code>npm run build--no-test</code></h3>
 <p>Builds the app for production to the <code>build</code> folder, bypassing all tests.  <strong>BEWARE!</strong></p>
+<h2>Deployment scripts</h2>
+<h3><code>npm run predeploy</code></h3>
+<p><code>predeploy</code> ss run before <code>npm run deploy</code> and currently is an alias for <code>npm run build</code>,<br>
+which builds the app for production use to the <code>build</code> folder.</p>
+<h3><code>npm run deploy</code></h3>
+<pre><code>&quot;deploy&quot;: &quot;gh-pages -d build&quot;,
+</code></pre>
 <h3><code>npm run eject</code></h3>
 <p><strong>Note: this is a one-way operation. Once you <code>eject</code>, you can’t go back!</strong></p>
 <p>If you aren’t satisfied with the build tool and configuration choices, you can <code>eject</code> at any time. This command will remove the single build dependency from your project.</p>
