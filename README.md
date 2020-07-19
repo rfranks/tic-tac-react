@@ -1,4 +1,4 @@
-[Documentation](/tic-tac-react/docs) | [Test Results](/tic-tac-react/docs/test-results/) | [Test Coverage Report](/tic-tac-react/docs/test-results/coverage/lcov-report/)
+[Documentation](/tic-tac-react/docs) | [Component Storybook](/tic-tac-react/docs/storybook/) | [Test Results](/tic-tac-react/docs/test-results/) | [Test Coverage Report](/tic-tac-react/docs/test-results/coverage/lcov-report/)
 
 # Getting started
 
