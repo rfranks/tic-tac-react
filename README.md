@@ -1,6 +1,8 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[Documentation](/tic-tac-react/docs) | [Test Results](/tic-tac-react/docs/test-results/) | [Test Coverage Report](/tic-tac-react/docs/test-results/coverage/lcov-report/)
 
 # Getting started
+
+This project was initially bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 # Adding a component
 
@@ -36,18 +38,37 @@ Additional resources:
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Builds the app for production to the `build` folder.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+This includes:
+- installing `node_modules` via `npm install`,
+- bundling React in production mode via `react-scripts build`,
+- optimizing the build for the best performance via `react-scripts build`, 
+- running all tests to make sure that they all pass and that code coverage levels are met via `npm run test`
+- building `jsdoc` documentation via `npm run build-jsdoc`
+- builds `sotrybook` documentation via `npm run build-storybook`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The build is minified and the filenames include the hashes.
+
+Your app is ready to be deployed!  See `npm run deploy` to deploy to Github.
+
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information
+on deploying react apps.
 
 ### `npm run build--no-test`
 
 Builds the app for production to the `build` folder, bypassing all tests.  __BEWARE!__
 
+
+## Deployment scripts
+
+### `npm run predeploy`
+`predeploy` ss run before `npm run deploy` and currently is an alias for `npm run build`,
+which builds the app for production use to the `build` folder.
+
+### `npm run deploy`
+
+    "deploy": "gh-pages -d build",
 
 ### `npm run eject`
 
